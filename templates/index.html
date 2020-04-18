@@ -1,0 +1,136 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Apr 10 13:51:14 2020
+
+@author: ARKADIP GHOSH
+"""
+
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  
+  <title>ML API</title>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/mystyle.css') }}">
+ <!--link rel="stylesheet" href="mystyle.css"--> 
+</head>
+
+
+
+
+  <body onload="init();">
+  <div class="login">
+  
+    <h1>Take a snapshot of the current video stream</h1>
+    
+   Click on the Start WebCam button.
+   
+        <p>
+    <button onclick="startWebcam();">Start WebCam</button>
+    <button onclick="stopWebcam();">Stop WebCam</button> 
+       <button onclick="snapshot();">Take Snapshot</button> 
+    </p>
+    <video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video>
+  <p>
+
+        Screenshots : </p>
+  	 
+    <form action="{{ url_for('predict')}}"method="post"enctype="multipart/form-data">
+    <div>
+      <canvas  id="myCanvas" width="48" height="48"></canvas>  
+      <input type="file" id="myCanvas" name="myCanvas">
+      <button style="color:MediumSeaGreen;" type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+      <br><br>
+      </div>
+      </form>
+  <script >
+  
+
+      //--------------------
+      // GET USER MEDIA CODE
+      //--------------------
+          navigator.mediaDevices.getUserMedia = ( navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia);
+
+      var video;
+      var webcamStream;
+
+      function startWebcam() {
+        if (navigator.getUserMedia) {
+           navigator.getUserMedia (
+
+              // constraints
+              {
+                 video: true,
+                 audio: false
+              },
+
+              // successCallback
+              function(localMediaStream) {
+                  video = document.querySelector('video');
+                 video.srcObject = localMediaStream;
+                 webcamStream = localMediaStream;
+              },
+
+              // errorCallback
+              function(err) {
+                 console.log("The following error occured: " + err);
+              }
+           );
+        } else {
+           console.log("getUserMedia not supported");
+        }  
+      }
+
+      function stopWebcam() {
+         // webcamStream.stop();
+        webcamStream.getTracks().forEach(function(track) {
+  track.stop();});
+      }
+      //---------------------
+      // TAKE A SNAPSHOT CODE
+      //---------------------
+      var canvas, ctx;
+        function snapshot() {
+         // Draws current image from the video element into the canvas
+        ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+        //canvas = document.getElementById("myCanvas");
+        //var dataURL = canvas.toDataURL('image/jpg', 1.0);
+        //document.querySelector('#dl-btn').href = dataURL;
+
+        //console.log(dataURL)
+
+      }
+      function init() {
+        // Get the canvas and obtain a context for
+        // drawing in it
+        canvas = document.getElementById("myCanvas");
+        ctx = canvas.getContext('2d');
+        var dataURL = canvas.toDataURL('image/jpg', 1.0);
+        
+      }
+      
+      
+
+    
+
+  </script>
+  
+  
+  
+  
+
+
+
+
+
+<font color="MediumSeaGreen" size="12" > {{prediction_text0}} </font>
+ 
+ 
+ </div>
+
+</body>
+
+</html>
