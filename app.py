@@ -6,6 +6,7 @@ Created on Fri Apr 10 13:48:41 2020
 """
 
 import numpy as np
+import cv2
 from flask import Flask, request, jsonify, render_template
 import pickle
 #from IPython.display import display
@@ -30,8 +31,9 @@ def predict():
     #query_index = np.random.choice(movie_features_df.shape[0])
     query_index=request.files['myCanvas']
     #s=type(query_index)
-    #cv2.imread(query_index)
-    img = load_img(request.files['myCanvas'],target_size=(48, 48),grayscale=True)  
+    image = cv2.imread(query_index,0)
+    img=cv2.resize(image, (48,48))
+    #img = load_img(request.files['myCanvas'],target_size=(48, 48),grayscale=True)  
     x = img_to_array(img)  
     x = x.reshape((1,) + x.shape)
     h=model.predict([x])
