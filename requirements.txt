@@ -10,5 +10,5 @@ scipy>=0.19.1
 keras>=2.3.1
 seaborn>=0.10.0
 matplotlib>=3.2.1
-tensorflow==2.0
-cv2>=3.4.2
+tensorflow<=2.0
+openCV>=3.4.2
