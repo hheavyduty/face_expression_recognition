@@ -32,7 +32,7 @@ def predict():
     query_index=request.files['myCanvas']
     #s=type(query_index)
     #image = cv2.imread(query_index,0)
-    image= cv2.imdecode(numpy.fromstring(request.files['myCanvas'].read(), numpy.uint8), cv2.IMREAD_UNCHANGED)
+    image= cv2.imdecode(np.fromstring(request.files['myCanvas'].read(), np.uint8), cv2.IMREAD_UNCHANGED)
     img=cv2.resize(image, (48,48))
     #img = load_img(request.files['myCanvas'],target_size=(48, 48),grayscale=True)  
     x = img_to_array(img)  
