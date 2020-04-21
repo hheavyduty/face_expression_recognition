@@ -39,7 +39,7 @@ def predict():
     x = x.reshape((1,) + x.shape)
     h=model.predict([x])
     r=np.argmax(h)
-    if(query_index):
+    if(request.files['myCanvas']):
         #r=0
         if(r==0):
             return render_template('index.html',prediction_text0="You seem to be angry !!! Chill and Relax")
