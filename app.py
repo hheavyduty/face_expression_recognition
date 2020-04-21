@@ -29,18 +29,19 @@ def predict():
     '''
     
     #query_index = np.random.choice(movie_features_df.shape[0])
-    query_index=request.files['myCanvas']
-    #s=type(query_index)
-    #image = cv2.imread(query_index,0)
-    image= cv2.imdecode(np.fromstring(request.files['myCanvas'].read(), np.uint8), cv2.IMREAD_GRAYSCALE)
-    img=cv2.resize(image, (48,48))
-    #img = load_img(request.files['myCanvas'],target_size=(48, 48),grayscale=True)  
-    x = img_to_array(img)  
-    x = x.reshape((1,) + x.shape)
-    h=model.predict([x])
-    r=np.argmax(h)
-    if(request.files['myCanvas']):
+    
+    if(request.files['myCanvas']!=None):
         #r=0
+        query_index=request.files['myCanvas']
+        #s=type(query_index)
+        #image = cv2.imread(query_index,0)
+        image= cv2.imdecode(np.fromstring(request.files['myCanvas'].read(), np.uint8), cv2.IMREAD_GRAYSCALE)
+        img=cv2.resize(image, (48,48))
+        #img = load_img(request.files['myCanvas'],target_size=(48, 48),grayscale=True)  
+        x = img_to_array(img)  
+        x = x.reshape((1,) + x.shape)
+        h=model.predict([x])
+        r=np.argmax(h)
         if(r==0):
             return render_template('index.html',prediction_text0="You seem to be angry !!! Chill and Relax")
         elif(r==1):
