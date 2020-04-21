@@ -30,7 +30,7 @@ def predict():
     
     #query_index = np.random.choice(movie_features_df.shape[0])
     
-    if(request.files['myCanvas']!=None):
+    if(request.files['myCanvas']):
         #r=0
         query_index=request.files['myCanvas']
         #s=type(query_index)
